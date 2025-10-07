@@ -1,109 +1,112 @@
-.main-navigation {
-	display: block;
-	width: 100%;
+.site-header{
+	
+	.aurelia-navigation{
+		background-color: $light;
+		border-radius: 22px;
+		box-shadow: $drop-shadow;
 
-	ul {
-		display: none;
-		list-style: none;
-		margin: 0;
-		padding-left: 0;
+		.site-logo{
+			width: 42px;
+			@media (max-width:$md) {
+				width: 35px;
+			}
+		}
+		
+		.main-navigation{
 
-		ul {
-			box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-			float: left;
-			position: absolute;
-			top: 100%;
-			left: -999em;
-			z-index: 99999;
-
-			ul {
-				left: -999em;
-				top: 0;
+			.menu-item a{
+				color: $text-grey;
 			}
 
-			li {
+			.menu-item a{
+				position: relative;
+				border-radius: 4px;
+				overflow: hidden; // ensure pseudo-element stays inside
+				z-index: 0;
 
-				&:hover > ul,
-				&.focus > ul {
-					display: block;
-					left: auto;
+				&:not(.active){
+
+	
+					&::before {
+						content: '';
+						position: absolute;
+						top: 0;
+						left: 50%; // start from center
+						width: 0;
+						height: 100%;
+						background-color: $grey; // your hover color
+						z-index: -1; // behind text
+						transition: width 0.2s ease, left 0.2s ease;
+					}
+	
+					&:hover::before {
+						width: 100%;
+						left: 0; // expand to full width
+					}
 				}
 			}
 
-			a {
-				width: 200px;
+
+			.menu-item.active{
+				background-color: $grey;				
+				a{
+					color: $dark;
+				}
 			}
 
-			:hover > a,
-			.focus > a {
+			.dropdown {
+				position: relative;
+		
+				.dropdown-menu {
+					display: block; // required for animation trigger
+					opacity: 0;
+					visibility: hidden;
+					transform: translateX(-15px);
+					transition: opacity 0.3s ease, transform 0.3s ease;
+					padding: 0px;
+					width: 210px;
+					border: none;
+					box-shadow: $drop-shadow;
+					.menu-item{
+						padding: 0.5rem 1rem;
+					}
+				}
+		
+				&:hover {
+					.dropdown-menu {
+						opacity: 1;
+						visibility: visible;
+						transform: translateX(0);
+					}
+				}
+			}
+		}
+	}
+	.aurelia-offcanvas{
+		.site-logo{
+			width: 42px;
+		}
+		.dropdown{
+			position: relative;
+			.dropdown-menu {
+				display: block;
+				max-height: 0;
+				opacity: 0;
+				overflow: hidden;
+				transition: max-height 0.3s ease, opacity 0.3s ease;
+				padding: 0 !important;
+				border: none;
+				margin-left: 1rem;
 			}
 
-			a:hover,
-			a.focus {
+			.dropdown-menu.show {
+			max-height: 500px;
+			opacity: 1;
 			}
+
 		}
 
-		li:hover > ul,
-		li.focus > ul {
-			left: auto;
-		}
+
 	}
 
-	li {
-		position: relative;
-
-		&:hover > a,
-		&.focus > a {
-		}
-	}
-
-	a {
-		display: block;
-		text-decoration: none;
-	}
-
-	.current_page_item > a,
-	.current-menu-item > a,
-	.current_page_ancestor > a,
-	.current-menu-ancestor > a {
-	}
-}
-
-/* Small menu. */
-.menu-toggle,
-.main-navigation.toggled ul {
-	display: block;
-}
-
-@media screen and (min-width: 37.5em) {
-
-	.menu-toggle {
-		display: none;
-	}
-
-	.main-navigation ul {
-		display: flex;
-	}
-}
-
-.comment-navigation,
-.posts-navigation,
-.post-navigation {
-
-	.site-main & {
-		margin: 0 0 1.5em;
-	}
-
-	.nav-links {
-		display: flex;
-	}
-
-	.nav-previous {
-		flex: 1 0 50%;
-	}
-
-	.nav-next {
-		text-align: end;
-		flex: 1 0 50%;
-	}
 }

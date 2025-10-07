@@ -10,6 +10,11 @@
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
+
+function aurelia_get_social_networks() {
+    return ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube'];
+}
+
 function aurelia_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
@@ -31,6 +36,33 @@ function aurelia_customize_register( $wp_customize ) {
 			)
 		);
 	}
+
+	// -----------social linke---------------
+	// Create a section for social links
+    $wp_customize->add_section('aurelia_social_section', array(
+        'title'       => __('Social Media Links', 'aurelia'),
+        'priority'    => 30,
+        'description' => __('Add your social media URLs here'),
+    ));
+
+    // Define an array of social networks
+    $social_networks = aurelia_get_social_networks();
+
+    foreach ($social_networks as $network) {
+        // Setting
+        $wp_customize->add_setting("aurelia_{$network}_link", array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+
+        // Control
+        $wp_customize->add_control("aurelia_{$network}_link_control", array(
+            'label'    => ucfirst($network) . ' URL',
+            'section'  => 'aurelia_social_section',
+            'settings' => "aurelia_{$network}_link",
+            'type'     => 'url',
+        ));
+    }
 }
 add_action( 'customize_register', 'aurelia_customize_register' );
 
@@ -59,3 +91,5 @@ function aurelia_customize_preview_js() {
 	wp_enqueue_script( 'aurelia-customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), _S_VERSION, true );
 }
 add_action( 'customize_preview_init', 'aurelia_customize_preview_js' );
+
+
