@@ -1,0 +1,55 @@
+.aurelia-nav-tabs{
+    @media (max-width: $md) {
+        display: none !important;
+    }
+    .aurelia-nav-item{
+        .nav-link{
+            border-radius: 0 !important;
+            border: none !important;
+            color: $dark;
+        }
+        &:hover{
+            background-color: $dark;
+            .nav-link{
+                color: $light;
+            }
+            .aurelia-menu{
+                display: block !important;
+                position: absolute;
+                inset: 0px auto auto 0px;
+                margin: 0px;
+                transform: translate3d(0px, 200px, 0px);
+            }
+        }
+    }
+    .aurelia-menu{
+        background-color: transparent !important;
+        border: none !important;
+        padding-top: 0 !important;
+        .aurelia-tab-wrapper{
+            position: relative;
+            .aurelia-loading-overlay {
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.6);
+                z-index: 10;
+            }
+            .aurelia-row{
+                margin: 0.5rem 0;
+                .card{
+                    background-color: transparent !important;
+                    border-radius: 0 !important;
+                    .card-title{
+                        color: $light;
+                    }
+                    .card-img-top {
+                        width: 100%;
+                        max-height: 150px;
+                        object-fit: cover;
+                    }
+
+                }
+            }
+        }
+    }
+}

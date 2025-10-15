@@ -27,7 +27,7 @@ if ( ! function_exists( 'aurelia_posted_on' ) ) :
 
 		$posted_on = sprintf(
 			/* translators: %s: post date. */
-			esc_html_x( 'Posted on %s', 'post date', 'aurelia' ),
+			esc_html_x( '%s', 'post date', 'aurelia' ),
 			'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 		);
 
@@ -43,7 +43,7 @@ if ( ! function_exists( 'aurelia_posted_by' ) ) :
 	function aurelia_posted_by() {
 		$byline = sprintf(
 			/* translators: %s: post author. */
-			esc_html_x( 'by %s', 'post author', 'aurelia' ),
+			esc_html_x( 'By %s', 'post author', 'aurelia' ),
 			'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 		);
 
@@ -51,6 +51,47 @@ if ( ! function_exists( 'aurelia_posted_by' ) ) :
 
 	}
 endif;
+
+// Count post views
+function aurelia_set_post_views($postID) {
+    $count_key = 'aurelia_post_views_count';
+    $count = get_post_meta($postID, $count_key, true);
+    if ($count == '') {
+        $count = 0;
+        delete_post_meta($postID, $count_key);
+        add_post_meta($postID, $count_key, '0');
+    } else {
+        $count++;
+        update_post_meta($postID, $count_key, $count);
+    }
+}
+
+// Get post views
+function aurelia_get_post_views($postID) {
+    $count = get_post_meta($postID, 'aurelia_post_views_count', true);
+    return $count ? $count . ' views' : '0 views';
+}
+
+// Increment views on single post view
+function aurelia_track_post_views($post_id) {
+    if (is_single()) {
+        aurelia_set_post_views($post_id);
+    }
+}
+add_action('wp_head', function() {
+    if (is_single()) {
+        global $post;
+        aurelia_track_post_views($post->ID);
+    }
+});
+
+function aurelia_get_reading_time($post_id) {
+    $content = get_post_field('post_content', $post_id);
+    $word_count = str_word_count(strip_tags($content));
+    $minutes = ceil($word_count / 200); // average 200 words/min
+    return $minutes . ' min read';
+}
+
 
 if ( ! function_exists( 'aurelia_entry_footer' ) ) :
 	/**
@@ -63,7 +104,7 @@ if ( ! function_exists( 'aurelia_entry_footer' ) ) :
 			$categories_list = get_the_category_list( esc_html__( ', ', 'aurelia' ) );
 			if ( $categories_list ) {
 				/* translators: 1: list of categories. */
-				printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'aurelia' ) . '</span>', $categories_list ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				printf( '<span class="cat-links">' . esc_html__( '#%1$s', 'aurelia' ) . '</span>', $categories_list ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 
 			/* translators: used between list items, there is a space after the comma */
@@ -73,42 +114,13 @@ if ( ! function_exists( 'aurelia_entry_footer' ) ) :
 				printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'aurelia' ) . '</span>', $tags_list ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
-
-		if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
-			echo '<span class="comments-link">';
-			comments_popup_link(
-				sprintf(
-					wp_kses(
-						/* translators: %s: post title */
-						__( 'Leave a Comment<span class="screen-reader-text"> on %s</span>', 'aurelia' ),
-						array(
-							'span' => array(
-								'class' => array(),
-							),
-						)
-					),
-					wp_kses_post( get_the_title() )
-				)
-			);
-			echo '</span>';
-		}
-
-		edit_post_link(
-			sprintf(
-				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers */
-					__( 'Edit <span class="screen-reader-text">%s</span>', 'aurelia' ),
-					array(
-						'span' => array(
-							'class' => array(),
-						),
-					)
-				),
-				wp_kses_post( get_the_title() )
-			),
-			'<span class="edit-link">',
-			'</span>'
-		);
+		?>
+		<div class="post-meta">
+			<span class="post-views"><i class="fa-solid fa-eye"></i> <?php echo aurelia_get_post_views(get_the_ID()); ?></span>			
+			<span class="post-read-time"><i class="fa-solid fa-clock"></i> <?php echo aurelia_get_reading_time(get_the_ID()); ?></span>
+		</div>
+		<?php
+		
 	}
 endif;
 

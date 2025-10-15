@@ -13,3 +13,11 @@ img {
 figure {
 	margin: 1em 0; // Extra wide images within figure tags don't overflow the content area.
 }
+
+.post-thumbnail{
+	img{
+		width: 100%;
+		height: 250px;
+		object-fit: cover;
+	} 
+}	

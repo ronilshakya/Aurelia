@@ -50,6 +50,7 @@ function aurelia_setup() {
 	register_nav_menus(
 		array(
 			'menu-1' => esc_html__( 'Header Navigation', 'aurelia' ),
+			'footer-col-1' => __( 'Footer Column 1 Menu', 'aurelia' ),
 		)
 	);
 
@@ -131,6 +132,7 @@ function aurelia_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+	
 }
 add_action( 'widgets_init', 'aurelia_widgets_init' );
 
@@ -138,12 +140,23 @@ add_action( 'widgets_init', 'aurelia_widgets_init' );
  * Enqueue scripts and styles.
  */
 function aurelia_scripts() {
-	wp_enqueue_style( 'aurelia-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_enqueue_style( 'bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css', array(), _S_VERSION );
+	wp_enqueue_style( 'swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css', array(), _S_VERSION );
+	wp_enqueue_style( 'aurelia-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'aurelia-style', 'rtl', 'replace' );
 
+	wp_enqueue_script( 'swiper-script', 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'aurelia-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'aurelia-swiper', get_template_directory_uri() . '/js/swiper-aurelia.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'aurelia-form', get_template_directory_uri() . '/js/form.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'aurelia-hero-section', get_template_directory_uri() . '/js/hero-section.js', array('jquery'), _S_VERSION, true );
+	wp_localize_script(
+		'aurelia-hero-section',
+		'aurelia_ajax',
+		array(
+			'ajaxurl' => admin_url('admin-ajax.php')
+		)
+	);
 	wp_enqueue_script( 'bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'fontawesome-js', 'https://kit.fontawesome.com/3386261b2a.js', array(), _S_VERSION, true );
 
@@ -182,3 +195,4 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 
 require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
 
+require_once get_template_directory() . '/inc/hero-section.php';

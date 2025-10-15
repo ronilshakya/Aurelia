@@ -21,3 +21,14 @@
 	clear: both;
 	margin: 0 0 1.5em;
 }
+
+.card{
+	.post-description{
+		height: 4.5em;
+	}
+	.post-meta{
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+}

@@ -38,4 +38,24 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
   });
 
-  
+//   Sticky navbar
+document.addEventListener('DOMContentLoaded', function () {
+  const stickyNavbar = document.getElementById('sticky-navbar');
+  let lastScrollY = 0;
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+
+    if (currentScroll > 150) {
+      stickyNavbar.classList.add('visible');
+    } else {
+      stickyNavbar.classList.remove('visible');
+    }
+
+    lastScrollY = currentScroll;
+  });
+});
+
+// const navitem = document.querySelector('.aurelia-nav-item');
+// const navMenu = document.querySelector('.aurelia-menu');
+// navitem.addEventListener('mouseover',()=> navMenu.classList.add('show'))

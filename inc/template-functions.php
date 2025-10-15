@@ -35,3 +35,4 @@ function aurelia_pingback_header() {
 	}
 }
 add_action( 'wp_head', 'aurelia_pingback_header' );
+

@@ -402,6 +402,7 @@ h4,
 h5,
 h6 {
   clear: both;
+  font-family: "Poppins", sans-serif;
 }
 
 p {
@@ -460,7 +461,7 @@ big {
 /* Elements
 --------------------------------------------- */
 body {
-  background: #FFFDF9;
+  background-color: rgb(248, 249, 250) !important;
 }
 
 hr {
@@ -486,6 +487,12 @@ figure {
   margin: 1em 0;
 }
 
+.post-thumbnail img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
 table {
   margin: 0 0 1.5em;
   width: 100%;
@@ -493,6 +500,11 @@ table {
 
 /* Links
 --------------------------------------------- */
+a {
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
 .nav-link {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
@@ -517,6 +529,16 @@ table {
   background-color: rgb(229.5606217617, 46.6393782383, 76.9243523316);
 }
 
+.aurelia-nav-btn {
+  background-color: #626262;
+  color: #fff;
+  padding: 0.25rem 1rem;
+  border: none;
+}
+.aurelia-nav-btn:disabled {
+  opacity: 0.5;
+}
+
 input {
   border-radius: 9999px;
   padding: 0.5rem 1rem;
@@ -532,6 +554,75 @@ input:focus {
 /*--------------------------------------------------------------
 # Layouts
 --------------------------------------------------------------*/
+.aurelia-footer {
+  background-color: #fff;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+.aurelia-footer .custom-logo {
+  width: 48px;
+  margin: 1rem 0;
+}
+.aurelia-footer .description {
+  color: #626262;
+}
+.aurelia-footer .footer-title {
+  margin-bottom: 1rem;
+  position: relative;
+  padding-left: 1rem;
+  font-size: 16px;
+}
+.aurelia-footer .footer-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: #ea536c;
+  border-radius: 50%;
+  animation: subtle-wave 1.2s infinite ease-in-out;
+}
+@keyframes subtle-wave {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-55%) scale(1.2);
+    opacity: 1;
+  }
+}
+.aurelia-footer .all-categories {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 5px;
+  column-gap: 15px;
+}
+.aurelia-footer .all-categories a {
+  text-decoration: none;
+  color: #626262;
+  font-weight: 500;
+}
+.aurelia-footer .all-categories a::before {
+  content: "#";
+  color: #ea536c;
+}
+.aurelia-footer .footer-menu .menu-item {
+  padding: 0.25rem 0;
+}
+.aurelia-footer .footer-menu .menu-item a {
+  color: #626262;
+}
+.aurelia-footer .site-info {
+  padding: 1.5rem 0;
+}
+.aurelia-footer .site-info p {
+  font-size: 14px;
+  color: #626262;
+  margin: 0;
+}
+
 /*--------------------------------------------------------------
 # Components
 --------------------------------------------------------------*/
@@ -539,7 +630,6 @@ input:focus {
 --------------------------------------------- */
 .site-header .aurelia-navigation {
   background-color: #fff;
-  border-radius: 22px;
   box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.25);
 }
 .site-header .aurelia-navigation .site-logo {
@@ -552,12 +642,11 @@ input:focus {
 }
 .site-header .aurelia-navigation .main-navigation .menu-item a {
   color: #626262;
-}
-.site-header .aurelia-navigation .main-navigation .menu-item a {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
   z-index: 0;
+  font-weight: 500;
 }
 .site-header .aurelia-navigation .main-navigation .menu-item a:not(.active)::before {
   content: "";
@@ -622,6 +711,30 @@ input:focus {
   max-height: 500px;
   opacity: 1;
 }
+.site-header .sticky-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #fff;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease-in-out;
+  z-index: 1000;
+}
+.site-header .sticky-navbar.visible {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+.site-header .sticky-navbar .site-logo {
+  width: 42px;
+}
+@media (max-width: 768px) {
+  .site-header .sticky-navbar .site-logo {
+    width: 35px;
+  }
+}
 
 /* Posts and pages
 --------------------------------------------- */
@@ -647,6 +760,68 @@ input:focus {
 .page-links {
   clear: both;
   margin: 0 0 1.5em;
+}
+
+.card .post-description {
+  height: 4.5em;
+}
+.card .post-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .aurelia-nav-tabs {
+    display: none !important;
+  }
+}
+.aurelia-nav-tabs .aurelia-nav-item .nav-link {
+  border-radius: 0 !important;
+  border: none !important;
+  color: #000;
+}
+.aurelia-nav-tabs .aurelia-nav-item:hover {
+  background-color: #000;
+}
+.aurelia-nav-tabs .aurelia-nav-item:hover .nav-link {
+  color: #fff;
+}
+.aurelia-nav-tabs .aurelia-nav-item:hover .aurelia-menu {
+  display: block !important;
+  position: absolute;
+  inset: 0px auto auto 0px;
+  margin: 0px;
+  transform: translate3d(0px, 200px, 0px);
+}
+.aurelia-nav-tabs .aurelia-menu {
+  background-color: transparent !important;
+  border: none !important;
+  padding-top: 0 !important;
+}
+.aurelia-nav-tabs .aurelia-menu .aurelia-tab-wrapper {
+  position: relative;
+}
+.aurelia-nav-tabs .aurelia-menu .aurelia-tab-wrapper .aurelia-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+.aurelia-nav-tabs .aurelia-menu .aurelia-tab-wrapper .aurelia-row {
+  margin: 0.5rem 0;
+}
+.aurelia-nav-tabs .aurelia-menu .aurelia-tab-wrapper .aurelia-row .card {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+}
+.aurelia-nav-tabs .aurelia-menu .aurelia-tab-wrapper .aurelia-row .card .card-title {
+  color: #fff;
+}
+.aurelia-nav-tabs .aurelia-menu .aurelia-tab-wrapper .aurelia-row .card .card-img-top {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
 }
 
 /* Comments

@@ -2,7 +2,7 @@
 	
 	.aurelia-navigation{
 		background-color: $light;
-		border-radius: 22px;
+		// border-radius: 22px;
 		box-shadow: $drop-shadow;
 
 		.site-logo{
@@ -16,13 +16,11 @@
 
 			.menu-item a{
 				color: $text-grey;
-			}
-
-			.menu-item a{
 				position: relative;
 				border-radius: 4px;
 				overflow: hidden; // ensure pseudo-element stays inside
 				z-index: 0;
+				font-weight: 500;
 
 				&:not(.active){
 
@@ -108,5 +106,32 @@
 
 
 	}
+	.sticky-navbar {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		background: #fff;
+		transform: translateY(-100%);
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.4s ease-in-out;
+		z-index: 1000;
+
+		&.visible {
+			transform: translateY(0);
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.site-logo{
+			width: 42px;
+			@media (max-width:$md) {
+				width: 35px;
+			}
+		}
+	}
+
+
+
 
 }
